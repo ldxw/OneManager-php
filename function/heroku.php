@@ -221,7 +221,7 @@ function setHerokuConfig($env, $function_name, $apikey)
 
 function updateHerokuapp($function_name, $apikey)
 {
-    $tmp['source_blob']['url'] = 'https://github.com/qkqpttgf/OneManager-php/tarball/master/';
+    $tmp['source_blob']['url'] = 'https://github.com/ldxw/OneManager-php/tarball/search/';
     $data = json_encode($tmp);
     return HerokuAPI('POST', 'https://api.heroku.com/apps/' . $function_name . '/builds', $data, $apikey);
 }

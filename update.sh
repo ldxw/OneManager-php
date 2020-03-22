@@ -1,6 +1,6 @@
 #!bash
 
-gitsource='https://github.com/qkqpttgf/OneManager-php'
+gitsource='https://github.com/ldxw/OneManager-php/tree/BindOneDisk'
 
 OneManagerPath=`cd $(dirname $0);pwd -P`
 cd ${OneManagerPath}

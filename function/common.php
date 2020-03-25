@@ -1306,19 +1306,17 @@ function get_refresh_token()
         Onedrive_Ver：<br>
         <label><input type="radio" name="Onedrive_ver" value="MS" checked onclick="document.getElementById(\'secret\').style.display=\'none\';document.getElementById(\'sharepoint\').style.display=\'none\';">MS: '.getconstStr('OndriveVerMS').'</label><br>
         <label><input type="radio" name="Onedrive_ver" value="CN" onclick="document.getElementById(\'secret\').style.display=\'none\';document.getElementById(\'sharepoint\').style.display=\'none\';">CN: '.getconstStr('OndriveVerCN').'</label><br>
-        <label><input type="radio" name="Onedrive_ver" value="MSC" onclick="document.getElementById(\'secret\').style.display=\'\';document.getElementById(\'sharepoint\').style.display=\'none\';">MSC: '.getconstStr('OndriveVerMSC').'
-            <div id="secret" style="display:none">
-                <a href="'.$app_url.'" target="_blank">'.getconstStr('GetSecretIDandKEY').'</a><br>
-                client_secret:<input type="text" name="client_secret"><br>
-                client_id:<input type="text" name="client_id" placeholder="12345678-90ab-cdef-ghij-klmnopqrstuv"><br>
-            </div>
-        </label><br>
-        <label><input type="radio" name="Onedrive_ver" value="MS_sharepoint" onclick="document.getElementById(\'secret\').style.display=\'none\';document.getElementById(\'sharepoint\').style.display=\'\';">MS_sharepoint: '.getconstStr('OndriveVerMS_sharepoint').'
-            <div id="sharepoint" style="display:none">
-                '.getconstStr('GetSharepointName').'<br>
-                <input type="text" name="sharepointname" placeholder="'.getconstStr('InputSharepointName').'"><br>
-            </div>
-        </label><br>
+        <label><input type="radio" name="Onedrive_ver" value="MSC" onclick="document.getElementById(\'secret\').style.display=\'\';document.getElementById(\'sharepoint\').style.display=\'none\';">MSC: '.getconstStr('OndriveVerMSC').'</label><br>
+        <label><input type="radio" name="Onedrive_ver" value="MS_sharepoint" onclick="document.getElementById(\'secret\').style.display=\'none\';document.getElementById(\'sharepoint\').style.display=\'\';">MS_sharepoint: '.getconstStr('OndriveVerMS_sharepoint').'</label><br>
+        <div id="secret" style="display:none">
+            <a href="'.$app_url.'" target="_blank">'.getconstStr('GetSecretIDandKEY').'</a><br>
+            client_secret:<input type="text" name="client_secret"><br>
+            client_id:<input type="text" name="client_id" placeholder="12345678-90ab-cdef-ghij-klmnopqrstuv"><br>
+        </div>
+        <div id="sharepoint" style="display:none">
+            '.getconstStr('GetSharepointName').'<br>
+            <input type="text" name="sharepointname" placeholder="'.getconstStr('InputSharepointName').'"><br>
+        </div>
         <input type="submit" value="'.getconstStr('Submit').'">
     </form>
     <script>
@@ -1337,6 +1335,18 @@ function get_refresh_token()
             if (!reg.test(t.disktag_add.value)) {
                 alert(\''.getconstStr('TagFormatAlert').'\');
                 return false;
+            }
+            if (t.Onedrive_ver.value==\'MSC\') {
+                if (t.client_secret.value==\'\'||t.client_id.value==\'\') {
+                    alert(\'client_id & client_secret\');
+                    return false;
+                }
+            }
+            if (t.Onedrive_ver.value==\'MS_sharepoint\') {
+                if (t.sharepointname.value==\'\') {
+                    alert(\'sharepointname\');
+                    return false;
+                }
             }
             document.cookie=\'disktag=\'+t.disktag_add.value+\'; path=/\';
             return true;

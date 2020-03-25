@@ -132,8 +132,8 @@ function config_oauth()
 {
     $_SERVER['sitename'] = getConfig('sitename');
     if (empty($_SERVER['sitename'])) $_SERVER['sitename'] = getconstStr('defaultSitename');
-    //$_SERVER['redirect_uri'] = 'https://scfonedrive.github.io';
-	$_SERVER['redirect_uri'] = 'https://git.ldxw.vip/scfone';
+    $_SERVER['redirect_uri'] = 'https://scfonedrive.github.io';
+	//$_SERVER['redirect_uri'] = 'https://git.ldxw.vip/scfone';
 
     if (getConfig('Onedrive_ver')=='MS') {
         // MS

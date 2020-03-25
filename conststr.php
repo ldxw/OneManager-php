@@ -572,10 +572,6 @@ $constStr = [
     ],
     'defaultSitename' => [
         'en-us' => 'OneManager',
-        'zh-cn' => 'OneManager',
-        'ja' => 'OneManager',
-        'ko-kr' => 'OneManager',
-        'fa' => 'OneManager',
     ],
     'SavingToken' => [
         'en-us' => 'Saving refresh_token!',
@@ -640,48 +636,60 @@ $constStr = [
         'ko-kr' => '중국 Onedrive',
         'fa' => 'Onedrive در چین',
     ],
-    'OndriveVerMSC' =>[
+    'OndriveVerMSC' => [
         'en-us' => 'default but use customer app id & secret',
         'zh-cn' => '国际版，自己申请应用ID与机密',
         'ja' => '国際版、アプリケーションIDとシークレットを自分で申請する',
         'ko-kr' => '국제 버전, 응용 프로그램 ID 및 비밀 신청',
         'fa' => 'به طور پیش فرض اما از شناسه برنامه و سکرت استفاده کنید',
     ],
-    'GetSecretIDandKEY' =>[
+    'GetSecretIDandKEY' => [
         'en-us' => 'Get customer app id & secret',
         'zh-cn' => '申请应用ID与机密',
         'ja' => 'アプリケーションIDとシークレット',
         'fa' => 'دریافت شناسه برنامه و سکرت',
     ],
-    'TagFormatAlert' =>[
+    'OndriveVerMS_sharepoint' => [
+        'en-us' => 'use space in Sharepoint website',
+        'zh-cn' => 'Sharepoint 网站空间',
+    ],
+    'GetSharepointName' => [
+        'en-us' => 'Login office.com and click the SharePoint, create a website or find an exist website, input it\'s name',
+        'zh-cn' => '登录office.com，点击Sharepoint，创建一个网站或使用原有网站，输入它的名字',
+    ],
+    'InputSharepointName' => [
+        'en-us' => 'Input Sharepoint website name',
+        'zh-cn' => '输入Sharepoint网站的名称',
+    ],
+    'TagFormatAlert' => [
         'en-us' => 'Tag must start with a letter, end with a letter or digit and can only contain lowercase letters, digits, and dashes， at least 2 letters!',
         'zh-cn' => '标签只能以字母开头，以字母或数字结尾，至少2位',
         'ja' => 'タグは、文字で始まり、文字または数字で終わる必要があります。少なくとも2つ',
         'ko-kr' => '태그는 문자로 시작하고 문자 또는 숫자로 끝나야합니다 (2 이상).',
         'fa' => 'برچسب باید با یک حرف شروع شود، با یک حرف یا رقم پایان یابد و تنها می‌تواند حاوی حروف کوچک، ارقام و خط فاصله، حداقل ۲ حرف باشد!',
     ],
-    'ClickInstall' =>[
+    'ClickInstall' => [
         'en-us' => 'Click to install the project',
         'zh-cn' => '点击开始安装程序',
         'ja' => 'クリックしてインストールプロセスを開始します',
         'ko-kr' => '설치 과정을 시작하려면 클릭',
         'fa' => 'برای نصب پروژه کلیک کنید',
     ],
-    'LogintoBind' =>[
+    'LogintoBind' => [
         'en-us' => 'then login and bind your onedrive in setup',
         'zh-cn' => '然后登录后在设置中绑定你的onedrive。',
         'ja' => '次に、ログインして、設定でonedriveをバインドします。',
         'ko-kr' => '그런 다음 로그인하여 onedrive를 설정에 바인딩하십시오.',
         'fa' => 'پس از آن وارد سیستم شوید و تنظیمات خود را در onedrive متصل کنید',
     ],
-    'MakesuerWriteable' =>[
+    'MakesuerWriteable' => [
         'en-us' => 'Plase make sure the config.php is writeable. run writeable.sh.',
         'zh-cn' => '确认config.php可写。',
         'ja' => 'config.phpが書き込み可能であることを確認してください。',
         'ko-kr' => 'config.php가 쓰기 가능한지 확인하십시오.',
         'fa' => 'اطمینان حاصل کنید که config.php قابل نوشتن است. writeable.sh را اجرا کنید.',
     ],
-    'MakesuerRewriteOn' =>[
+    'MakesuerRewriteOn' => [
         'en-us' => 'Plase make sure the RewriteEngine is On.',
         'zh-cn' => '确认重写（伪静态）功能启用。',
         'ja' => '書き換え（擬似静的）機能が有効になっていることを確認します。',

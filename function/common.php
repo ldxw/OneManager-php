@@ -138,9 +138,7 @@ function config_oauth()
 {
     $_SERVER['sitename'] = getConfig('sitename');
     if (empty($_SERVER['sitename'])) $_SERVER['sitename'] = getconstStr('defaultSitename');
-    //$_SERVER['redirect_uri'] = 'https://scfonedrive.github.io';
-	//$_SERVER['redirect_uri'] = 'https://git.ldxw.vip/scfone';
-	$_SERVER['redirect_uri'] = 'https://scfone.ldxw.vip';
+    $_SERVER['redirect_uri'] = 'https://scfonedrive.github.io';
     if (getConfig('Drive_ver')=='MS') {
         // MS
         // https://portal.azure.com
@@ -433,7 +431,7 @@ function needUpdate()
     $current_ver = substr($current_ver, strpos($current_ver, '.')+1);
     $current_ver = explode(urldecode('%0A'),$current_ver)[0];
     $current_ver = explode(urldecode('%0D'),$current_ver)[0];
-    $github_version = file_get_contents('https://cdn.jsdelivr.net/gh/qkqpttgf/OneManager-php@master/version');
+    $github_version = file_get_contents('https://raw.githubusercontent.com/qkqpttgf/OneManager-php/master/version');
     $github_ver = substr($github_version, strpos($github_version, '.')+1);
     $github_ver = explode(urldecode('%0A'),$github_ver)[0];
     $github_ver = explode(urldecode('%0D'),$github_ver)[0];
@@ -1211,7 +1209,7 @@ function render_list($path = '', $files = '')
     include 'theme/'.$theme;
 
     $html = '<!--
-    Github ： https://github.com/ldxw/OneManager-php
+    Github ： https://github.com/qkqpttgf/OneManager-php
 -->' . ob_get_clean();
     //if (isset($htmlpage['statusCode'])) return $htmlpage;
     if (isset($_SERVER['Set-Cookie'])) return output($html, $statusCode, [ 'Set-Cookie' => $_SERVER['Set-Cookie'], 'Content-Type' => 'text/html' ]);

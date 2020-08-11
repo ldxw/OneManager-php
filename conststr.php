@@ -1,5 +1,8 @@
 <?php
 
+global $exts;
+global $constStr;
+
 $exts['img'] = ['ico', 'bmp', 'gif', 'jpg', 'jpeg', 'jpe', 'jfif', 'tif', 'tiff', 'png', 'heic', 'webp'];
 $exts['music'] = ['mp3', 'wma', 'flac', 'ape', 'wav', 'ogg', 'm4a'];
 $exts['office'] = ['doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx'];
@@ -788,5 +791,13 @@ $constStr = [
     'QueryBranchs' => [
         'en-us' => 'Query Branchs',
         'zh-cn' => '查询分支',
+    ],
+    'ONEMANAGER_CONFIG_SAVE_ENV' => [
+        'en-us' => 'Config save in Environments',
+        'zh-cn' => '配置保存在环境变量',
+    ],
+    'ONEMANAGER_CONFIG_SAVE_FILE' => [
+        'en-us' => 'Config save in code file, may cause fee',
+        'zh-cn' => '配置保存在代码文件中，可能产生费用',
     ],
 ];

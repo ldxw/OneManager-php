@@ -6,6 +6,7 @@ global $ShowedCommonEnv;
 global $InnerEnv;
 global $ShowedInnerEnv;
 global $Base64Env;
+global $timezones;
 
 $Base64Env = [
     //'APIKey', // used in heroku.
@@ -18,7 +19,9 @@ $Base64Env = [
     //'HW_secret', // used in FG.
     //'admin',
     //'adminloginpage',
+    //'autoJumpFirstDisk',
     'background',
+    'backgroundm',
     'diskname',
     //'disableShowThumb',
     //'disableChangeTheme',
@@ -62,7 +65,9 @@ $CommonEnv = [
     'HW_secret', // used in FG.
     'admin',
     'adminloginpage',
+    'autoJumpFirstDisk',
     'background',
+    'backgroundm',
     'disktag',
     'disableShowThumb',
     'disableChangeTheme',
@@ -88,7 +93,9 @@ $ShowedCommonEnv = [
     //'HW_secret', // used in FG.
     //'admin',
     'adminloginpage',
+    'autoJumpFirstDisk',
     'background',
+    'backgroundm',
     //'disktag',
     'disableShowThumb',
     'disableChangeTheme',
@@ -251,16 +258,17 @@ function main($path)
 //    echo 'count$disk:'.count($disktags);
     if (count($disktags)>1) {
         if ($path=='/'||$path=='') {
+            $files['folder']['childCount'] = count($disktags);
+            foreach ($disktags as $disktag) {
+                $files['children'][$disktag]['folder'] = 1;
+                $files['children'][$disktag]['name'] = $disktag;
+            }
             if ($_GET['json']) {
                 // return a json
-                $files['folder']['childCount'] = count($disktags);
-                foreach ($disktags as $disktag) {
-                    $files['children'][$disktag]['folder'] = 1;
-                    $files['children'][$disktag]['name'] = $disktag;
-                }
                 return files_json($files);
-            } // else return render_list($path, $files);
-            return output('', 302, [ 'Location' => path_format($_SERVER['base_path'].'/'.$disktags[0].'/') ]);
+            }
+            if (getConfig('autoJumpFirstDisk')) return output('', 302, [ 'Location' => path_format($_SERVER['base_path'].'/'.$disktags[0].'/') ]);
+            return render_list($path, $files);
         }
         $_SERVER['disktag'] = splitfirst( substr(path_format($path), 1), '/' )[0];
         //$pos = strpos($path, '/');
@@ -536,14 +544,28 @@ function isHideFile($name)
 
 function getcache($str)
 {
-    $cache = new \Doctrine\Common\Cache\FilesystemCache(sys_get_temp_dir(), __DIR__.'/Onedrive/'.$_SERVER['disktag']);
+    $cache = filecache();
     return $cache->fetch($str);
 }
 
 function savecache($key, $value, $exp = 1800)
 {
-    $cache = new \Doctrine\Common\Cache\FilesystemCache(sys_get_temp_dir(), __DIR__.'/Onedrive/'.$_SERVER['disktag']);
-    $cache->save($key, $value, $exp);
+    $cache = filecache();
+    return $cache->save($key, $value, $exp);
+}
+
+function filecache()
+{
+    $dir = sys_get_temp_dir();
+    if (!is_writable($dir)) {
+        if ( is_writable(__DIR__ . '/tmp/') ) $dir = __DIR__ . '/tmp/';
+        if ( mkdir(__DIR__ . '/tmp/', 0777) ) $dir = __DIR__ . '/tmp/';
+    }
+    $tag = __DIR__ . '/OneManager/' . $_SERVER['disktag'];
+    while (strpos($tag, '/')>-1) $tag = str_replace('/', '_', $tag);
+    // error_log('DIR:' . $dir . ' TAG: ' . $tag);
+    $cache = new \Doctrine\Common\Cache\FilesystemCache($dir, $tag);
+    return $cache;
 }
 
 function getconstStr($str)
@@ -689,6 +711,42 @@ function is_guestup_path($path)
 function array_value_isnot_null($arr)
 {
     return $arr!=='';
+}
+
+function curl($method, $url, $data = '', $headers = [], $returnheader = 0)
+{
+    //if (!isset($headers['Accept'])) $headers['Accept'] = '*/*';
+    //if (!isset($headers['Referer'])) $headers['Referer'] = $url;
+    //if (!isset($headers['Content-Type'])) $headers['Content-Type'] = 'application/x-www-form-urlencoded';
+    $sendHeaders = array();
+    foreach ($headers as $headerName => $headerVal) {
+        $sendHeaders[] = $headerName . ': ' . $headerVal;
+    }
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST,$method);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_HEADER, $returnheader);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $sendHeaders);
+    //$response['body'] = curl_exec($ch);
+    if ($returnheader) {
+        list($returnhead, $response['body']) = explode("\r\n\r\n", curl_exec($ch));
+        foreach (explode("\r\n", $returnhead) as $head) {
+            $tmp = explode(': ', $head);
+            $heads[$tmp[0]] = $tmp[1];
+        }
+        $response['returnhead'] = $heads;
+    } else {
+        $response['body'] = curl_exec($ch);
+    }
+    $response['stat'] = curl_getinfo($ch,CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    return $response;
 }
 
 function curl_request($url, $data = false, $headers = [], $returnheader = 0)
@@ -1794,6 +1852,8 @@ function EnvOpt($needUpdate = 0)
         $canOneKeyUpate = 1;
     } elseif (isset($_SERVER['FC_SERVER_PATH'])&&$_SERVER['FC_SERVER_PATH']==='/var/fc/runtime/php7.2') {
         $canOneKeyUpate = 1;
+    } elseif ($_SERVER['BCE_CFC_RUNTIME_NAME']=='php7') {
+        $canOneKeyUpate = 1;
     } elseif ($_SERVER['_APP_SHARE_DIR']==='/var/share/CFF/processrouter') {
         $canOneKeyUpate = 1;
     } else {
@@ -2438,9 +2498,17 @@ function render_list($path = '', $files = '')
         $html = $tmp[0];
         $tmp = splitfirst($tmp[1], '<!--BackgroundEnd-->');
         if (getConfig('background')) {
-            $background = str_replace('<!--BackgroundUrl-->', getConfig('background'), $tmp[0]);
+            $html .= str_replace('<!--BackgroundUrl-->', getConfig('background'), $tmp[0]);
         }
-        $html .= $background . $tmp[1];
+        $html .= $tmp[1];
+
+        $tmp = splitfirst($html, '<!--BackgroundMStart-->');
+        $html = $tmp[0];
+        $tmp = splitfirst($tmp[1], '<!--BackgroundMEnd-->');
+        if (getConfig('backgroundm')) {
+            $html .= str_replace('<!--BackgroundMUrl-->', getConfig('backgroundm'), $tmp[0]);
+        }
+        $html .=  $tmp[1];
 
         $tmp = splitfirst($html, '<!--PathArrayStart-->');
         $html = $tmp[0];

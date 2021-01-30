@@ -40,8 +40,8 @@ How to Install:
     开启伪静态(重写)功能，规则在.htaccess文件中，ngnix从里面复制，我们的目的是不管访问什么都让index.php来处理。  
     3.Upload code.  
     上传好代码。  
-    4.Change the file config.php can be read&write (666 is suggested).  
-    让代码中的config.php文件程序可读写，推荐chmod 666 config.php。  
+    4.Change the file .data/config.php can be read&write (666 is suggested).  
+    使web身份可读写代码中的.data/config.php文件，推荐chmod 666 .data/config.php。  
     5.View the website in chrome or other.  
     在浏览器中访问。  
 
@@ -103,6 +103,16 @@ If there is 'index.html' file, program will only show the content of 'index.html
 如果目录中有index.html文件，只会输出显示html文件，不显示程序框架。  
 Click 'EditTime' or 'Size', the list will sort by time or size, Click 'File' can resume sort.  
 点击“时间”、“大小”，可以排序显示，点“文件”恢复原样。  
+
+# Functional files 功能性文件  
+### favicon.ico  
+put it in the showing home folder of FIRST disk (maybe not root of onedrive). 放在第一个盘的显示目录（不一定是onedrive根目录）。  
+### index.html  
+show content of index.html as html. 将index.html以静态网页显示出来。  
+### head.md readme.md  
+it will showed at top or bottom as markdown. 以MD语法显示在顶部或底部。  
+### head.omf foot.omf  
+it will showed at top or bottom as html (javascript works!). 以html显示在顶部或底部（可以跑js）。  
 
 QQ Group: 943919989 (请看完上面的中英双语再加群，谢谢！)  
 Telegram Group: https://t.me/joinchat/I_RVc0bqxuxlT-d0cO7ozw  

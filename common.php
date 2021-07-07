@@ -350,6 +350,11 @@ function main($path)
 
     if ($_GET['json']) {
         // return a json
+        if ($files['type']=='folder' && !$_SERVER['admin']) {
+            foreach ($files['list'] as $k => $v) {
+                if (isHideFile($k)) unset($files['list'][$k]);
+            }
+        }
         return output(json_encode($files), 200, ['Content-Type' => 'application/json']);
     }
     // random file

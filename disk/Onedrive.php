@@ -1,4 +1,7 @@
 <?php
+            // https://docs.microsoft.com/en-us/graph/api/driveitem-get?view=graph-rest-1.0
+            // https://docs.microsoft.com/zh-cn/graph/api/driveitem-put-content?view=graph-rest-1.0&tabs=http
+            // https://developer.microsoft.com/zh-cn/graph/graph-explorer
 
 class Onedrive {
     protected $access_token;
@@ -46,9 +49,6 @@ class Onedrive {
     {
         global $exts;
         if (!($files = getcache('path_' . $path, $this->disktag))) {
-            // https://docs.microsoft.com/en-us/graph/api/driveitem-get?view=graph-rest-1.0
-            // https://docs.microsoft.com/zh-cn/graph/api/driveitem-put-content?view=graph-rest-1.0&tabs=http
-            // https://developer.microsoft.com/zh-cn/graph/graph-explorer
             $pos = splitlast($path, '/');
             $parentpath = $pos[0];
             if ($parentpath=='') $parentpath = '/';
@@ -131,7 +131,7 @@ class Onedrive {
                 } else {
                     $files['error']['stat'] = 503;
                     $files['error']['code'] = 'unknownError';
-                    $files['error']['message'] = 'unknownError';
+                    $files['error']['message'] = 'unknownError ' . $arr['body'] . " ~";
                 }
                 //$files = json_decode( '{"unknownError":{ "stat":'.$arr['stat'].',"message":"'.$arr['body'].'"}}', true);
                 //error_log1(json_encode($files, JSON_PRETTY_PRINT));
@@ -180,6 +180,7 @@ class Onedrive {
             return $files;
         }
         //error_log1(json_encode($tmp));
+        //echo '<pre>' . json_encode($tmp, JSON_PRETTY_PRINT) . '</pre>';
         return $tmp;
     }
 
@@ -350,15 +351,16 @@ class Onedrive {
         $filename = spurlencode($file['name']);
         $filename = path_format($file['path'] . '/' . $filename);
                 //echo $filename;
-        $result = $this->MSAPI('DELETE', $filename);
+        if ($file['id']) $result = $this->MSAPI('DELETE', "/items/" . $file['id']);
+        else $result = $this->MSAPI('DELETE', $filename);
         if ($result['stat']!=204) $r_body = json_encode($this->files_format(json_decode($result['body'], true)));
         return output($r_body, $result['stat']);
         //return output($result['body'], $result['stat']);
     }
     public function Encrypt($folder, $passfilename, $pass) {
-        $filename = path_format($folder['path'] . '/' . urlencode($passfilename));
+        $filename = '/items/' . $folder['id'] . ':/' . urlencode($passfilename);
         if ($pass==='') {
-            $result = $this->MSAPI('DELETE', $filename, '');
+            $result = $this->MSAPI('DELETE', $filename);
         } else {
             $result = $this->MSAPI('PUT', $filename, $pass);
         }
@@ -372,7 +374,8 @@ class Onedrive {
         $filename = spurlencode($file['name']);
         $filename = path_format($file['path'] . '/' . $filename);
         $data = '{"parentReference":{"path": "/drive/root:' . $folder['path'] . '"}}';
-        $result = $this->MSAPI('PATCH', $filename, $data);
+        if ($file['id']) $result = $this->MSAPI('PATCH', "/items/" . $file['id'], $data);
+        else $result = $this->MSAPI('PATCH', $filename, $data);
         $path2 = spurlencode($folder['path'], '/');
         if ($path2!='/'&&substr($path2, -1)=='/') $path2 = substr($path2, 0, -1);
         savecache('path_' . $path2, json_decode('{}', true), $this->disktag, 1);
@@ -391,7 +394,8 @@ class Onedrive {
             $newname = '.' . $namearr[1] . ' (' . date("Ymd\THis\Z") . ')';
         }
         $data = '{ "name": "' . $newname . '" }';
-        $result = $this->MSAPI('copy', $filename, $data);
+        if ($file['id']) $result = $this->MSAPI('copy', "/items/" . $file['id'], $data);
+        else $result = $this->MSAPI('copy', $filename, $data);
         /*$num = 0;
         while ($result['stat']==409 && json_decode($result['body'], true)['error']['code']=='nameAlreadyExists') {
             $num++;
@@ -1007,6 +1011,8 @@ class Onedrive {
             } else {
                 if ($path=='' or $path=='/') {
                     $url .= $method;
+                } elseif (substr($path, 0, 6)=="/items") {
+                    $url .= '/' . $method;
                 } else {
                     $url .= ':/' . $method;
                 }

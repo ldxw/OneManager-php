@@ -7,6 +7,7 @@
   Please read the descriptions of settings before raising an issue.  
 
 ---
+<<<<<<< HEAD
 
 # Deploy to Vercel  
 
@@ -52,6 +53,8 @@
 > 3. Click the green button "Run", it will show the web page on the right, you can open it in a new tab or window.  
 
 ---
+=======
+>>>>>>> d23942e8a1776c9a9178cc398b6d8279c6cbcc4c
 
 # Deploy to Heroku  
 
@@ -67,7 +70,11 @@
 
 > ~~Click the button [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy) to Deploy a new app~~(`"We couldn't deploy your app because the source code violates the Salesforce Acceptable Use and External-Facing Services Policy."`)  
 >
+<<<<<<< HEAD
 > Star this project, then Fork, create an app in Heroku, then turn to the Deploy tab, "Deployment method" via "Connect GitHub", select your github fork.   
+=======
+> Star this project, then Fork, create a app in Heroku, then turn to the Deploy tab, "Deployment method" via "Connect GitHub", select your github fork.   
+>>>>>>> d23942e8a1776c9a9178cc398b6d8279c6cbcc4c
 
 ---
 
@@ -87,6 +94,31 @@
 
 ---
 
+<<<<<<< HEAD
+=======
+# Deploy to Vercel  
+
+### Official
+
+  https://vercel.com/  
+
+### Demo
+
+  https://onemanager-php.vercel.app/  
+
+### Notice
+
+> 1. you must wait 30-50s to make sure deploy READY after change config;  
+>
+> 2. Vercel limit 100 deploy every day.  
+
+### How to Install
+
+  https://scfonedrive.github.io/Vercel/Deploy.html .  
+
+---
+
+>>>>>>> d23942e8a1776c9a9178cc398b6d8279c6cbcc4c
 # Deploy to Tencent Serverless Cloud Function (SCF)  
 
 ### Official

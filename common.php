@@ -1278,7 +1278,11 @@ function EnvOpt($needUpdate = 0)
 
     $html = '<title>OneManager '.getconstStr('Setup').'</title>';
     if (isset($_POST['updateProgram'])&&$_POST['updateProgram']==getconstStr('updateProgram')) if (compareadminmd5('admin', getConfig('admin'), $_COOKIE['admin'], $_POST['_admin'])) {
+<<<<<<< HEAD
         $response = setConfigResponse(OnekeyUpate($_POST['GitSource'], $_POST['auth'], $_POST['project'], $_POST['branch']));
+=======
+        $response = setConfigResponse(OnekeyUpate($_POST['auth'], $_POST['project'], $_POST['branch']));
+>>>>>>> d23942e8a1776c9a9178cc398b6d8279c6cbcc4c
         if (api_error($response)) {
             $html = api_error_msg($response);
             $title = 'Error';
@@ -1756,11 +1760,14 @@ output:
             $frame .= '
 <form name="updateform" action="" method="post">
     <input name="_admin" type="hidden" value="">
+<<<<<<< HEAD
     Update from
     <select name="GitSource" onchange="changeGitSource(this)">
         <option value="Github" selected>Github</option>
         <option value="HITGitlab">HIT Gitlab</option>
     </select>
+=======
+>>>>>>> d23942e8a1776c9a9178cc398b6d8279c6cbcc4c
     <input type="text" name="auth" size="6" placeholder="auth" value="qkqpttgf">
     <input type="text" name="project" size="12" placeholder="project" value="OneManager-php">
     <button name="QueryBranchs" onclick="querybranchs(this);return false;">' . getconstStr('QueryBranchs') . '</button>
@@ -1862,7 +1869,11 @@ output:
             $frame .= getconstStr('NotNeedUpdate');
         }*/
         $frame .= '<br><br>
+<<<<<<< HEAD
 <script src="https://cdn.jsdelivr.net/npm/js-sha1@0.6.0/src/sha1.min.js"></script>
+=======
+<script src="https://cdn.bootcss.com/js-sha1/0.6.0/sha1.min.js"></script>
+>>>>>>> d23942e8a1776c9a9178cc398b6d8279c6cbcc4c
 <table>
     <form id="change_pass" name="change_pass" action="" method="POST" onsubmit="return changePassword(this);">
         <input name="_admin" type="hidden" value="">

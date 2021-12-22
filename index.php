@@ -47,6 +47,7 @@ if (isset($_SERVER['USER'])&&$_SERVER['USER']==='qcloud') {
     http_response_code($re['statusCode']);
     if ($re['isBase64Encoded']) echo base64_decode($re['body']);
     else echo $re['body'];
+<<<<<<< HEAD
 } elseif (isset($_SERVER['DOCUMENT_ROOT'])&&substr($_SERVER['DOCUMENT_ROOT'], 0, 13)==='/home/runner/') {
     include 'platform/Replit.php';
 
@@ -63,6 +64,8 @@ if (isset($_SERVER['USER'])&&$_SERVER['USER']==='qcloud') {
     http_response_code($re['statusCode']);
     if ($re['isBase64Encoded']) echo base64_decode($re['body']);
     else echo $re['body'];
+=======
+>>>>>>> d23942e8a1776c9a9178cc398b6d8279c6cbcc4c
 } else {
     include 'platform/Normal.php';
     if (!function_exists('curl_init')) {

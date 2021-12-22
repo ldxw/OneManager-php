@@ -704,3 +704,58 @@ function changeAuthKey() {
     </script>';
     return message($html, 'Change platform Auth token or key', 200);
 }
+
+function WaitFunction() {
+    if ( json_decode(getfunctioninfo($_SERVER['function_name'], $_SERVER['Region'], $_SERVER['namespace'], getConfig('SecretId'), getConfig('SecretKey')),true)['Response']['Status']=='Active' ) return true;
+    else return false;
+}
+
+function changeAuthKey() {
+    if ($_POST['SecretId']!=''&&$_POST['SecretId']!='') {
+        $tmp['SecretId'] = $_POST['SecretId'];
+        $tmp['SecretKey'] = $_POST['SecretKey'];
+        $response = setConfigResponse( SetbaseConfig($tmp, $_SERVER['function_name'], $_SERVER['Region'], $_SERVER['namespace'], $tmp['SecretId'], $tmp['SecretKey']) );
+        if (api_error($response)) {
+            $html = api_error_msg($response);
+            $title = 'Error';
+            return message($html, $title, 400);
+        } else {
+            $html = getconstStr('Success') . '
+    <script>
+        var status = "' . $response['DplStatus'] . '";
+        var i = 0;
+        var uploadList = setInterval(function(){
+            if (document.getElementById("dis").style.display=="none") {
+                console.log(i++);
+            } else {
+                clearInterval(uploadList);
+                location.href = "' . path_format($_SERVER['base_path'] . '/') . '";
+            }
+        }, 1000);
+    </script>';
+            return message($html, $title, 201, 1);
+        }
+    }
+    $html = '
+    <form action="" method="post" onsubmit="return notnull(this);">
+        <a href="https://console.cloud.tencent.com/cam/capi" target="_blank">' . getconstStr('Create') . ' SecretId & SecretKey</a><br>
+        <label>SecretId:<input name="SecretId" type="text" placeholder="" size=""></label><br>
+        <label>SecretKey:<input name="SecretKey" type="password" placeholder="" size=""></label><br>
+        <input type="submit" value="' . getconstStr('Submit') . '">
+    </form>
+    <script>
+        function notnull(t)
+        {
+            if (t.SecretId.value==\'\') {
+                alert(\'input SecretId\');
+                return false;
+            }
+            if (t.SecretKey.value==\'\') {
+                alert(\'input SecretKey\');
+                return false;
+            }
+            return true;
+        }
+    </script>';
+    return message($html, 'Change platform Auth token or key', 200);
+}

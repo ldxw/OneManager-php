@@ -388,6 +388,7 @@ function setConfigResponse($response)
     return json_decode($response, true);
 }
 
+<<<<<<< HEAD
 function OnekeyUpate($GitSource = 'Github', $auth = 'qkqpttgf', $project = 'OneManager-php', $branch = 'master')
 {
     $tmppath = '/tmp';
@@ -415,6 +416,36 @@ function OnekeyUpate($GitSource = 'Github', $auth = 'qkqpttgf', $project = 'OneM
     $outPath = $tmppath . "/" . $name;
     //echo $outPath . "<br>";
     //error_log1($outPath);
+=======
+function OnekeyUpate($auth = 'qkqpttgf', $project = 'OneManager-php', $branch = 'master')
+{
+    $tmppath = '/tmp';
+
+    // 从github下载对应tar.gz，并解压
+    $url = 'https://github.com/' . $auth . '/' . $project . '/tarball/' . urlencode($branch) . '/';
+    $tarfile = $tmppath . '/github.tar.gz';
+    $githubfile = file_get_contents($url);
+    if (!$githubfile) return '{"error":{"message":"fail to download from github"}}';
+    file_put_contents($tarfile, $githubfile);
+        $phar = new PharData($tarfile); // need php5.3, 7, 8
+        $phar->extractTo($tmppath, null, true);//路径 要解压的文件 是否覆盖
+    unlink($tarfile);
+
+    $outPath = '';
+    $tmp = scandir($tmppath);
+    $name = $auth . '-' . $project;
+    mkdir($tmppath . "/" . $name, 0777, 1);
+    foreach ($tmp as $f) {
+        if ( substr($f, 0, strlen($name)) == $name) {
+            rename($tmppath . '/' . $f, $tmppath . "/" . $name . '/api');
+            $outPath = $tmppath . "/" . $name;
+            break;
+        }
+    }
+    //echo $outPath . "<br>";
+    //error_log1($outPath);
+    if ($outPath=='') return '{"error":{"message":"no outpath"}}';
+>>>>>>> d23942e8a1776c9a9178cc398b6d8279c6cbcc4c
 
     // put in config
     $coderoot = __DIR__;

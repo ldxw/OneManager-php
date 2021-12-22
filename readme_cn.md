@@ -2,14 +2,18 @@
 
 # 注意：
 
+<<<<<<< HEAD
   请关掉浏览器的翻译。  
 
+=======
+>>>>>>> d23942e8a1776c9a9178cc398b6d8279c6cbcc4c
   Releases只是当存档在用的，并不是最新代码。  
 
   请将设置中所有的设置项的说明都读一遍，有些问题就不用问了。  
 
 ---
 
+<<<<<<< HEAD
 # 部署到 Vercel  
 
 ### 官网
@@ -84,6 +88,59 @@
 ### 安装
 
   点 [New Project] -> 点 [Import form Github] -> 粘贴 "https://github.com/qkqpttgf/OneManager-php" ，结束后，左上角点 [Show] -> [In a New Window]。  
+=======
+# 部署到 Heroku  
+
+### 官网
+
+  https://heroku.com  
+
+### Demo
+
+  https://herooneindex.herokuapp.com/  
+
+### 安装
+
+> 给这个项目点star，然后fork，在Heroku创建一个app，然后点进Deploy页，在"Deployment method"处点"Connect GitHub"，选择你的fork。   
+
+---
+
+# 部署到 Glitch  
+
+### 官网
+
+  https://glitch.com/  
+
+### Demo
+
+  https://onemanager.glitch.me/  
+
+### 安装
+
+  点 [New Project] -> 点 [Import form Github] -> 粘贴 "https://github.com/qkqpttgf/OneManager-php" ，结束后，左上角点 [Show] -> [In a New Window]。  
+
+---
+
+# 部署到 Vercel  
+
+### 官网
+
+  https://vercel.com/  
+
+### Demo
+
+  https://onemanager-php.vercel.app/  
+
+### 注意
+
+> 1. 每次更改配置后都要等 30-50s 来确保部署成功；  
+>
+> 2. Vercel 每天限制 100 次部署。  
+
+### 安装（英文）
+
+  https://scfonedrive.github.io/Vercel/Deploy.html   
+>>>>>>> d23942e8a1776c9a9178cc398b6d8279c6cbcc4c
 
 ---
 

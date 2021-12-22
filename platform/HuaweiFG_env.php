@@ -535,3 +535,58 @@ function changeAuthKey() {
     </script>';
     return message($html, 'Change platform Auth token or key', 200);
 }
+
+function WaitFunction() {
+    return true;
+}
+
+function changeAuthKey() {
+    if ($_POST['HW_key']!=''&&$_POST['HW_secret']!='') {
+        $tmp['HW_key'] = $_POST['HW_key'];
+        $tmp['HW_secret'] = $_POST['HW_secret'];
+        $response = setConfigResponse( SetbaseConfig($tmp, getConfig('HW_urn'), $tmp['HW_key'], $tmp['HW_secret']) );
+        if (api_error($response)) {
+            $html = api_error_msg($response);
+            $title = 'Error';
+            return message($html, $title, 400);
+        } else {
+            $html = getconstStr('Success') . '
+    <script>
+        var status = "' . $response['DplStatus'] . '";
+        var i = 0;
+        var uploadList = setInterval(function(){
+            if (document.getElementById("dis").style.display=="none") {
+                console.log(i++);
+            } else {
+                clearInterval(uploadList);
+                location.href = "' . path_format($_SERVER['base_path'] . '/') . '";
+            }
+        }, 1000);
+    </script>';
+            return message($html, $title, 201, 1);
+        }
+    }
+    $html = '
+    <form action="" method="post" onsubmit="return notnull(this);">
+        <a href="https://console.huaweicloud.com/iam/#/mine/accessKey" target="_blank">点击链接</a>，新增访问密钥，
+        在下载的credentials.csv文件中找到对应信息，填入：<br>
+        <label>Access Key Id:<input name="HW_key" type="text" placeholder="" size=""></label><br>
+        <label>Secret Access Key:<input name="HW_secret" type="password" placeholder="" size=""></label><br>
+        <input type="submit" value="' . getconstStr('Submit') . '">
+    </form>
+    <script>
+        function notnull(t)
+        {
+            if (t.HW_key.value==\'\') {
+                alert(\'input Access Key Id\');
+                return false;
+            }
+            if (t.HW_secret.value==\'\') {
+                alert(\'input Secret Access Key\');
+                return false;
+            }
+            return true;
+        }
+    </script>';
+    return message($html, 'Change platform Auth token or key', 200);
+}

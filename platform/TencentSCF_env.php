@@ -475,6 +475,7 @@ function WaitFunction() {
 }
 
 function updateProgram($function_name, $Region, $Namespace, $SecretId, $SecretKey, $source)
+<<<<<<< HEAD
 {
     $secretId = $SecretId;
     $secretKey = $SecretKey;
@@ -571,13 +572,121 @@ function OnekeyUpate($GitSource = 'Github', $auth = 'qkqpttgf', $project = 'OneM
     } elseif ($GitSource=='HITGitlab') {
         $url = 'https://git.hit.edu.cn/' . $auth . '/' . $project . '/-/archive/' . urlencode($branch) . '/' . $project . '-' . urlencode($branch) . '.tar.gz';
     } else return json_encode(['Response'=>['Error'=>['code'=>'Git Source input Error!']]]);
+=======
+{
+    $secretId = $SecretId;
+    $secretKey = $SecretKey;
+    $host = 'scf.tencentcloudapi.com';
+    $service = "scf";
+    $version = "2018-04-16";
+    $action = "UpdateFunctionCode";
+    $region = $Region;
+    $timestamp = time();
+    $algorithm = "TC3-HMAC-SHA256";
+
+    // step 1: build canonical request string
+    $httpRequestMethod = "POST";
+    $canonicalUri = "/";
+    $canonicalQueryString = "";
+    $canonicalHeaders = "content-type:application/json; charset=utf-8\n"."host:".$host."\n";
+    $signedHeaders = "content-type;host";
+
+    //$tmpdata['Action'] = 'UpdateFunctionCode';
+    $tmpdata['Code']['ZipFile'] = base64_encode( file_get_contents($source) );
+    $tmpdata['CodeSource'] = 'ZipFile';
+    $tmpdata['FunctionName'] = $function_name;
+    $tmpdata['Handler'] = 'index.main_handler';
+    //$tmpdata['Namespace'] = $Namespace;
+    //$tmpdata['Nonce'] = time();
+    //$tmpdata['Region'] = $Region;
+    //$tmpdata['SecretId'] = $SecretId;
+    //$tmpdata['Timestamp'] = time();
+    //$tmpdata['Token'] = '';
+    //$tmpdata['Version'] = '2018-04-16';
+    $payload = json_encode($tmpdata);
+    //$payload = '{"Limit": 1, "Filters": [{"Values": ["\u672a\u547d\u540d"], "Name": "instance-name"}]}';
+    $hashedRequestPayload = hash("SHA256", $payload);
+    $canonicalRequest = $httpRequestMethod."\n"
+        .$canonicalUri."\n"
+        .$canonicalQueryString."\n"
+        .$canonicalHeaders."\n"
+        .$signedHeaders."\n"
+        .$hashedRequestPayload;
+    //echo $canonicalRequest.PHP_EOL;
+
+    // step 2: build string to sign
+    $date = gmdate("Y-m-d", $timestamp);
+    $credentialScope = $date."/".$service."/tc3_request";
+    $hashedCanonicalRequest = hash("SHA256", $canonicalRequest);
+    $stringToSign = $algorithm."\n"
+        .$timestamp."\n"
+        .$credentialScope."\n"
+        .$hashedCanonicalRequest;
+    //echo $stringToSign.PHP_EOL;
+
+    // step 3: sign string
+    $secretDate = hash_hmac("SHA256", $date, "TC3".$secretKey, true);
+    $secretService = hash_hmac("SHA256", $service, $secretDate, true);
+    $secretSigning = hash_hmac("SHA256", "tc3_request", $secretService, true);
+    $signature = hash_hmac("SHA256", $stringToSign, $secretSigning);
+    //echo $signature.PHP_EOL;
+
+    // step 4: build authorization
+    $authorization = $algorithm
+        ." Credential=".$secretId."/".$credentialScope
+        .", SignedHeaders=content-type;host, Signature=".$signature;
+    //echo $authorization.PHP_EOL;
+
+    //$curl = "curl -X POST https://".$host
+    //    .' -H "Authorization: '.$authorization.'"'
+    //    .' -H "Content-Type: application/json; charset=utf-8"'
+    //    .' -H "Host: '.$host.'"'
+    //    .' -H "X-TC-Action: '.$action.'"'
+    //    .' -H "X-TC-Timestamp: '.$timestamp.'"'
+    //    .' -H "X-TC-Version: '.$version.'"'
+    //    .' -H "X-TC-Region: '.$region.'"'
+    //    ." -d '".$payload."'";
+    //error_log1( $curl.PHP_EOL );
+    //return '{"response": {"Error": {"Message":"' . $curl . '"}}}';
+    $headers['Authorization'] = $authorization;
+    $headers['Content-Type'] = 'application/json; charset=utf-8';
+    $headers['Host'] = $host;
+    $headers['X-TC-Action'] = $action;
+    $headers['X-TC-Timestamp'] = $timestamp;
+    $headers['X-TC-Version'] = $version;
+    $headers['X-TC-Region'] = $region;
+    return curl('POST', 'https://'.$host, $payload, $headers)['body'];
+}
+
+function OnekeyUpate($auth = 'qkqpttgf', $project = 'OneManager-php', $branch = 'master')
+{
+    $source = '/tmp/code.zip';
+    $outPath = '/tmp/';
+
+    // 从github下载对应tar.gz，并解压
+    $url = 'https://github.com/' . $auth . '/' . $project . '/tarball/' . urlencode($branch) . '/';
+>>>>>>> d23942e8a1776c9a9178cc398b6d8279c6cbcc4c
     $tarfile = '/tmp/github.tar.gz';
     file_put_contents($tarfile, file_get_contents($url));
     $phar = new PharData($tarfile);
     $html = $phar->extractTo($outPath, null, true);//路径 要解压的文件 是否覆盖
 
+<<<<<<< HEAD
     // 获取解压出的目录名
     $outPath = findIndexPath($outPath);
+=======
+    // 获取包中目录名
+    $tmp = scandir('phar://'.$tarfile);
+    $name = $auth.'-'.$project;
+    foreach ($tmp as $f) {
+        if ( substr($f, 0, strlen($name)) == $name) {
+            $outPath .= $f;
+            break;
+        }
+    }
+    // 放入配置文件
+    file_put_contents($outPath . '/.data/config.php', file_get_contents(__DIR__ . '/../.data/config.php'));
+>>>>>>> d23942e8a1776c9a9178cc398b6d8279c6cbcc4c
 
     // 将目录中文件打包成zip
     //$zip=new ZipArchive();
@@ -609,7 +718,11 @@ function addFileToZip($zip, $rootpath, $path = '')
             }
         }
     }
+<<<<<<< HEAD
     @closedir($handler);
+=======
+    @closedir($path);
+>>>>>>> d23942e8a1776c9a9178cc398b6d8279c6cbcc4c
 }
 
 function changeAuthKey() {

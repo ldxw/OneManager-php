@@ -428,6 +428,7 @@ function addFileToZip($zip, $rootpath, $path = '')
         }
     }
     @closedir($handler);
+<<<<<<< HEAD
 }
 
 function WaitFunction() {
@@ -483,6 +484,8 @@ function changeAuthKey() {
         }
     </script>';
     return message($html, 'Change platform Auth token or key', 200);
+=======
+>>>>>>> 544035b07a886376207c749651a68c34190ce75c
 }
 
 function WaitFunction() {

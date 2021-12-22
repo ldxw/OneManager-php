@@ -341,7 +341,11 @@ function_name:' . $_SERVER['function_name'] . '<br>
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 function OnekeyUpate($auth = 'ldxw', $project = 'OneManager-php', $branch = 'master')
+=======
+function OnekeyUpate($GitSource = 'Github', $auth = 'qkqpttgf', $project = 'OneManager-php', $branch = 'master')
+>>>>>>> 544035b07a886376207c749651a68c34190ce75c
 =======
 function OnekeyUpate($GitSource = 'Github', $auth = 'qkqpttgf', $project = 'OneManager-php', $branch = 'master')
 >>>>>>> 544035b07a886376207c749651a68c34190ce75c

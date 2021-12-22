@@ -658,19 +658,29 @@ function OnekeyUpate($GitSource = 'Github', $auth = 'qkqpttgf', $project = 'OneM
     return curl('POST', 'https://'.$host, $payload, $headers)['body'];
 }
 
-function OnekeyUpate($auth = 'qkqpttgf', $project = 'OneManager-php', $branch = 'master')
+function OnekeyUpate($GitSource = 'Github', $auth = 'qkqpttgf', $project = 'OneManager-php', $branch = 'master')
 {
     $source = '/tmp/code.zip';
     $outPath = '/tmp/';
 
+<<<<<<< HEAD
     // 从github下载对应tar.gz，并解压
     $url = 'https://github.com/' . $auth . '/' . $project . '/tarball/' . urlencode($branch) . '/';
 >>>>>>> d23942e8a1776c9a9178cc398b6d8279c6cbcc4c
+=======
+    if ($GitSource=='Github') {
+        // 从github下载对应tar.gz，并解压
+        $url = 'https://github.com/' . $auth . '/' . $project . '/tarball/' . urlencode($branch) . '/';
+    } elseif ($GitSource=='HITGitlab') {
+        $url = 'https://git.hit.edu.cn/' . $auth . '/' . $project . '/-/archive/' . urlencode($branch) . '/' . $project . '-' . urlencode($branch) . '.tar.gz';
+    } else return json_encode(['Response'=>['Error'=>['code'=>'Git Source input Error!']]]);
+>>>>>>> 544035b07a886376207c749651a68c34190ce75c
     $tarfile = '/tmp/github.tar.gz';
     file_put_contents($tarfile, file_get_contents($url));
     $phar = new PharData($tarfile);
     $html = $phar->extractTo($outPath, null, true);//路径 要解压的文件 是否覆盖
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     // 获取解压出的目录名
     $outPath = findIndexPath($outPath);
@@ -687,6 +697,10 @@ function OnekeyUpate($auth = 'qkqpttgf', $project = 'OneManager-php', $branch = 
     // 放入配置文件
     file_put_contents($outPath . '/.data/config.php', file_get_contents(__DIR__ . '/../.data/config.php'));
 >>>>>>> d23942e8a1776c9a9178cc398b6d8279c6cbcc4c
+=======
+    // 获取解压出的目录名
+    $outPath = findIndexPath($outPath);
+>>>>>>> 544035b07a886376207c749651a68c34190ce75c
 
     // 将目录中文件打包成zip
     //$zip=new ZipArchive();
@@ -719,10 +733,14 @@ function addFileToZip($zip, $rootpath, $path = '')
         }
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
     @closedir($handler);
 =======
     @closedir($path);
 >>>>>>> d23942e8a1776c9a9178cc398b6d8279c6cbcc4c
+=======
+    @closedir($handler);
+>>>>>>> 544035b07a886376207c749651a68c34190ce75c
 }
 
 function changeAuthKey() {

@@ -340,15 +340,7 @@ function_name:' . $_SERVER['function_name'] . '<br>
 <button onclick="location.href = location.href;">'.getconstStr('Refresh').'</button>';
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-function OnekeyUpate($auth = 'ldxw', $project = 'OneManager-php', $branch = 'master')
-=======
 function OnekeyUpate($GitSource = 'Github', $auth = 'qkqpttgf', $project = 'OneManager-php', $branch = 'master')
->>>>>>> 544035b07a886376207c749651a68c34190ce75c
-=======
-function OnekeyUpate($GitSource = 'Github', $auth = 'qkqpttgf', $project = 'OneManager-php', $branch = 'master')
->>>>>>> 544035b07a886376207c749651a68c34190ce75c
 {
     if ($GitSource=='Github') {
         //'https://github.com/qkqpttgf/OneManager-php/tarball/master/';

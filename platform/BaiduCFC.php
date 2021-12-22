@@ -428,64 +428,6 @@ function addFileToZip($zip, $rootpath, $path = '')
         }
     }
     @closedir($handler);
-<<<<<<< HEAD
-}
-
-function WaitFunction() {
-    return true;
-}
-
-function changeAuthKey() {
-    if ($_POST['SecretId']!=''&&$_POST['SecretKey']!='') {
-        $SecretId = $_POST['SecretId'];
-        $tmp['SecretId'] = $SecretId;
-        $SecretKey = $_POST['SecretKey'];
-        $tmp['SecretKey'] = $SecretKey;
-        $response = setConfigResponse(SetbaseConfig($tmp, $SecretId, $SecretKey));
-        if (api_error($response)) {
-            $html = api_error_msg($response);
-            $title = 'Error';
-            return message($html, $title, 400);
-        } else {
-            $html = getconstStr('Success') . '
-    <script>
-        var i = 0;
-        var uploadList = setInterval(function(){
-            if (document.getElementById("dis").style.display=="none") {
-                console.log(i++);
-            } else {
-                clearInterval(uploadList);
-                location.href = "' . path_format($_SERVER['base_path'] . '/') . '";
-            }
-        }, 1000);
-    </script>';
-            return message($html, $title, 201, 1);
-        }
-    }
-    $html = '
-    <form action="" method="post" onsubmit="return notnull(this);">
-        <a href="https://console.bce.baidu.com/iam/#/iam/accesslist" target="_blank">' . getconstStr('Create') . ' Access Key & Secret Key</a><br>
-        <label>Access Key:<input name="SecretId" type="text" placeholder="" size=""></label><br>
-        <label>Secret Key:<input name="SecretKey" type="password" placeholder="" size=""></label><br>
-        <input type="submit" value="' . getconstStr('Submit') . '">
-    </form>
-    <script>
-        function notnull(t)
-        {
-            if (t.SecretId.value==\'\') {
-                alert(\'input Access Key\');
-                return false;
-            }
-            if (t.SecretKey.value==\'\') {
-                alert(\'input Secret Key\');
-                return false;
-            }
-            return true;
-        }
-    </script>';
-    return message($html, 'Change platform Auth token or key', 200);
-=======
->>>>>>> 544035b07a886376207c749651a68c34190ce75c
 }
 
 function WaitFunction() {

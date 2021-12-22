@@ -7,7 +7,6 @@
   Please read the descriptions of settings before raising an issue.  
 
 ---
-<<<<<<< HEAD
 
 # Deploy to Vercel  
 
@@ -53,69 +52,8 @@
 > 3. Click the green button "Run", it will show the web page on the right, you can open it in a new tab or window.  
 
 ---
-=======
->>>>>>> d23942e8a1776c9a9178cc398b6d8279c6cbcc4c
 
-# Deploy to Vercel  
-
-### Official
-
-  https://vercel.com/  
-
-### Demo
-
-  https://onemanager-php.vercel.app/  
-
-### Notice
-
-> 1. you must wait 30-50s to make sure deploy READY after change config;  
->
-<<<<<<< HEAD
-<<<<<<< HEAD
-> Star this project, then Fork, create an app in Heroku, then turn to the Deploy tab, "Deployment method" via "Connect GitHub", select your github fork.   
-=======
-> Star this project, then Fork, create a app in Heroku, then turn to the Deploy tab, "Deployment method" via "Connect GitHub", select your github fork.   
->>>>>>> d23942e8a1776c9a9178cc398b6d8279c6cbcc4c
-=======
-> 2. Vercel limit 100 deploy every day.  
-
-### How to Install
-
-> https://scfonedrive.github.io/Vercel/Deploy.html .  
->>>>>>> 544035b07a886376207c749651a68c34190ce75c
-
----
-
-# Deploy to Replit  
-
-### Official
-
-  https://repl.it/  
-  https://replit.com/  
-
-### Demo
-
-  https://onemanager.qkqpttgf.repl.co/  
-
-### Notice
-
-> `Import from Github` useing the `.replit` file in code files will cause an empty web page, may someone help me?  
-
-### How to Install
-
-> 1. Click the "+" or "Create Repl", find template "PHP Web Server" (via input "php"), input a name for your project in "Title" or left it default, Click the "+ Create Repl".  
-> 2. After done, input `git clone https://github.com/qkqpttgf/OneManager-php && mv -b OneManager-php/* ./ && mv -b OneManager-php/.[^.]* ./ && rm -rf *~ && rm -rf OneManager-php` to Console or Shell on the right, press "Enter" to run it.  
-> 3. Click the green button "Run", it will show the web page on the right, you can open it in a new tab or window.  
-
----
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-# Deploy to Vercel  
-=======
 # Deploy to Heroku  
->>>>>>> 544035b07a886376207c749651a68c34190ce75c
 
 ### Official
 
@@ -149,7 +87,6 @@
 
 ---
 
->>>>>>> d23942e8a1776c9a9178cc398b6d8279c6cbcc4c
 # Deploy to Tencent Serverless Cloud Function (SCF)  
 
 ### Official

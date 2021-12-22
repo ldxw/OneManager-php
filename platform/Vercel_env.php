@@ -375,8 +375,6 @@ function setConfigResponse($response)
     return json_decode($response, true);
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 function OnekeyUpate($GitSource = 'Github', $auth = 'qkqpttgf', $project = 'OneManager-php', $branch = 'master')
 {
     $tmppath = '/tmp';
@@ -404,42 +402,6 @@ function OnekeyUpate($GitSource = 'Github', $auth = 'qkqpttgf', $project = 'OneM
     $outPath = $tmppath . "/" . $name;
     //echo $outPath . "<br>";
     //error_log1($outPath);
-=======
-function OnekeyUpate($auth = 'qkqpttgf', $project = 'OneManager-php', $branch = 'master')
-=======
-function OnekeyUpate($GitSource = 'Github', $auth = 'qkqpttgf', $project = 'OneManager-php', $branch = 'master')
->>>>>>> 544035b07a886376207c749651a68c34190ce75c
-{
-    $tmppath = '/tmp';
-
-    if ($GitSource=='Github') {
-        // 从github下载对应tar.gz，并解压
-        $url = 'https://github.com/' . $auth . '/' . $project . '/tarball/' . urlencode($branch) . '/';
-    } elseif ($GitSource=='HITGitlab') {
-        $url = 'https://git.hit.edu.cn/' . $auth . '/' . $project . '/-/archive/' . urlencode($branch) . '/' . $project . '-' . urlencode($branch) . '.tar.gz';
-    } else return json_encode(['error'=>['code'=>'Git Source input Error!']]);
-
-    $tarfile = $tmppath . '/github.tar.gz';
-    file_put_contents($tarfile, file_get_contents($url));
-    $phar = new PharData($tarfile);
-    $html = $phar->extractTo($tmppath, null, true);//路径 要解压的文件 是否覆盖
-    unlink($tarfile);
-
-    // 获取解压出的目录名
-    $outPath = findIndexPath($tmppath);
-
-    if ($outPath=='') return '{"error":{"message":"no outpath"}}';
-    $name = $project . 'CODE';
-    mkdir($tmppath . "/" . $name, 0777, 1);
-    rename($outPath, $tmppath . "/" . $name . '/api');
-    $outPath = $tmppath . "/" . $name;
-    //echo $outPath . "<br>";
-    //error_log1($outPath);
-<<<<<<< HEAD
-    if ($outPath=='') return '{"error":{"message":"no outpath"}}';
->>>>>>> d23942e8a1776c9a9178cc398b6d8279c6cbcc4c
-=======
->>>>>>> 544035b07a886376207c749651a68c34190ce75c
 
     return VercelUpdate(getConfig('HerokuappId'), getConfig('APIKey'), $outPath);
 }

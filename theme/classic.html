@@ -3,9 +3,9 @@
     "music":"musical-notes",
     "video":"logo-youtube",
     "img":"image",
-    "office":"paper",
+    "office":"newspaper",
     "txt":"clipboard",
-    "zip":"filing",
+    "zip":"file-tray-full",
     "iso":"disc",
     "apk":"logo-android",
     "exe":"logo-windows",
@@ -65,7 +65,7 @@
         .operatediv_close{position:absolute;right:3px;top:3px;}
         .readme{padding:8px;}
         .markdown-body, .customfile{padding:20px;text-align:left}
-        @media only screen and (max-width:480px){
+        @media only screen and (orientation: portrait){
 <!--BackgroundMStart-->
             body{background-repeat:no-repeat;background-size:cover;background-attachment:fixed;background-image:url("<!--BackgroundMUrl-->");}
 <!--BackgroundMEnd-->
@@ -88,7 +88,7 @@
         <li class="operate"><ion-icon name="construct"></ion-icon><!--constStr@Operate--><ul>
 <!--IsFolderStart-->
             <li><a onclick="showdiv(event,'create','');"><ion-icon name="add-circle"></ion-icon><!--constStr@Create--></a></li>
-            <li><a onclick="showdiv(event,'encrypt','');"><ion-icon name="lock"></ion-icon><!--constStr@Encrypt--></a></li>
+            <li><a onclick="showdiv(event,'encrypt','');"><ion-icon name="lock-closed"></ion-icon><!--constStr@Encrypt--></a></li>
             <li><a href="?RefreshCache"><ion-icon name="refresh"></ion-icon><!--constStr@RefreshCache--></a></li>
 <!--IsFolderEnd-->
             <li><a href="<!--IsPreview?-->setup"><ion-icon name="settings"></ion-icon><!--constStr@Setup--></a></li>
@@ -96,12 +96,12 @@
         </ul></li>
 <!--AdminEnd-->
         &nbsp;
-        <select class="changelanguage" name="language" onchange="changelanguage(this.options[this.options.selectedIndex].value)">
+        <!--<select class="changelanguage" name="language" onchange="changelanguage(this.options[this.options.selectedIndex].value)">
             <option value="">Language</option>
 <!--SelectLanguageStart-->
                 <option value="<!--SelectLanguageKey-->" <!--SelectLanguageSelected-->><!--SelectLanguageValue--></option>
 <!--SelectLanguageEnd-->
-        </select>
+        </select>-->
     </div>
 <!--NeedUpdateStart-->
     <div style='position:absolute;'><font color='red'><!--constStr@NeedUpdate--></font></div>
@@ -204,6 +204,7 @@
                         <div id="txt">
 <!--AdminStart-->
                         <form id="txt-form" action="" method="POST">
+                            <input name="_admin" type="hidden" value="">
                             <a onclick="document.getElementById('txt-a').readOnly='';document.getElementById('txt-save').style.display='';document.getElementById('txt-editbutton').style.display='none';document.getElementById('txt-cancelbutton').style.display='';" id="txt-editbutton"><ion-icon name="create"></ion-icon><!--constStr@ClicktoEdit--></a>
                             <a onclick="document.getElementById('txt-a').readOnly='readonly';document.getElementById('txt-save').style.display='none';document.getElementById('txt-editbutton').style.display='';document.getElementById('txt-cancelbutton').style.display='none';" id="txt-cancelbutton" style="display:none"><ion-icon name="close"></ion-icon><!--constStr@CancelEdit--></a>&nbsp;&nbsp;&nbsp;
                             <a id="txt-save" style="display:none"><ion-icon name="save"></ion-icon><!--constStr@Save--></a>
@@ -211,6 +212,12 @@
                             <textarea id="txt-a" name="editfile" readonly style="width: 100%; margin-top: 2px;" <!--AdminStart-->onchange="document.getElementById('txt-save').onclick=function(){document.getElementById('txt-form').submit();}"<!--AdminEnd--> ><!--TxtContent--></textarea>
 <!--AdminStart-->
                             </form>
+                            <script>
+                                var inputAdminStorage = document.getElementsByName("_admin");
+                                for (i=0;i<inputAdminStorage.length;i++) {
+                                    inputAdminStorage[i].value = localStorage.getItem("admin");
+                                }
+                            </script>
 <!--AdminEnd-->
                         </div>
 <!--IstxtFileEnd-->
@@ -224,7 +231,7 @@
                 <table class="list-table" id="list-table">
                     <tr id="tr0">
                         <th class="file">
-                            <a onclick="sortby('a');"><!--constStr@File--></a>
+                            <a id="file_a0" fileid="<!--FolderId-->" onclick="sortby('a');"><!--constStr@File--></a>
 <!--ShowThumbnailsStart-->
                             &nbsp;&nbsp;&nbsp;
                             <label><input type="checkbox" id="originalpic"><!--constStr@OriginalPic--></label>
@@ -243,7 +250,7 @@
 <!--AdminStart-->
                             <li class="operate"><ion-icon name="construct"></ion-icon><a><!--constStr@Operate--></a>
                             <ul>
-                                <li><a onclick="showdiv(event,'encrypt',<!--filenum-->);"><ion-icon name="lock"></ion-icon><!--constStr@Encrypt--></a></li>
+                                <li><a onclick="showdiv(event,'encrypt',<!--filenum-->);"><ion-icon name="lock-closed"></ion-icon><!--constStr@Encrypt--></a></li>
                                 <li><a onclick="showdiv(event, 'rename',<!--filenum-->);"><ion-icon name="create"></ion-icon><!--constStr@Rename--></a></li>
                                 <li><a onclick="showdiv(event, 'move',<!--filenum-->);"><ion-icon name="move"></ion-icon><!--constStr@Move--></a></li>
                                 <li><a onclick="showdiv(event, 'copy',<!--filenum-->);"><ion-icon name="copy"></ion-icon><!--constStr@Copy--></a></li>
@@ -482,7 +489,7 @@
 <!--MdRequireStart--><link rel="stylesheet" href="//unpkg.zhimg.com/github-markdown-css@3.0.1/github-markdown.css">
 <script type="text/javascript" src="//unpkg.zhimg.com/marked@0.6.2/marked.min.js"></script><!--MdRequireEnd-->
 <!--GuestUploadStart--><script type="text/javascript" src="//cdn.bootcss.com/spark-md5/3.0.0/spark-md5.min.js"></script><!--GuestUploadEnd-->
-<!--AliyundriveUploadJsStart--><script src="https://cdn.bootcss.com/js-sha1/0.6.0/sha1.min.js"></script><!--AliyundriveUploadJsEnd-->
+<!--AliyundriveUploadJsStart--><script src="https://cdn.jsdelivr.net/npm/js-sha1@0.6.0/src/sha1.min.js"></script><!--AliyundriveUploadJsEnd-->
 <!--IsFileStart--><!--IspdfFileStart--><script src="//cdn.bootcss.com/pdf.js/2.3.200/pdf.min.js"></script><!--IspdfFileEnd--><!--IsFileEnd-->
 <!--ListEnd-->
 <script type="text/javascript">
@@ -524,7 +531,10 @@
 <!--IsFileStart-->
     var $url = document.getElementById('url');
     if ($url) {
-        $url.innerHTML = location.protocol + '//' + location.host + $url.innerHTML;
+        //$url.innerHTML = location.protocol + '//' + location.host + $url.innerHTML;
+        let url = location.href;
+        url = url.substr(0, url.length-8);
+        $url.innerHTML = url.replace(/&amp;/g, '&amp;amp;');
         $url.style.height = $url.scrollHeight + 'px';
     }
 <!--IsofficeFileStart-->
@@ -603,12 +613,12 @@
             });
         }
     }
-    addVideos(['<!--FileEncodeUrl-->']);
+    addVideos(["<!--FileEncodeUrl-->"]);
 <!--IsvideoFileEnd-->
 <!--IspdfFileStart-->
     pdfjsLib.GlobalWorkerOptions.workerSrc = '//cdn.bootcss.com/pdf.js/2.3.200/pdf.worker.min.js';
     var loadingTask = pdfjsLib.getDocument({
-        url: '<!--FileDownUrl-->',
+        url: "<!--FileDownUrl-->",
         cMapUrl: "//cdn.jsdelivr.net/npm/pdfjs-dist@2.2.228/cmaps/",
         cMapPacked: true,
         rangeChunkSize: 65535
@@ -777,6 +787,7 @@
     }
     function size_reformat(str) {
         if (str.substr(-1)==' ') str=str.substr(0,str.length-1);
+        if (str.substr(-2)=='TB') num=str.substr(0,str.length-3)*1024*1024*1024*1024;
         if (str.substr(-2)=='GB') num=str.substr(0,str.length-3)*1024*1024*1024;
         if (str.substr(-2)=='MB') num=str.substr(0,str.length-3)*1024*1024;
         if (str.substr(-2)=='KB') num=str.substr(0,str.length-3)*1024;
@@ -990,7 +1001,7 @@
                     delete uploading[upbigfilename];
                 }
             }
-            xhr1.send('upbigfilename='+ upbigfilename +'&filesize='+ file.size +'&filelastModified='+ file.lastModified +'&filemd5='+ filemd5);
+            xhr1.send('upbigfilename='+ upbigfilename +'&filesize='+ file.size +'&filelastModified='+ file.lastModified +'&filemd5='+ filemd5 + '&_admin=' + localStorage.getItem("admin"));
 <!--GuestStart-->
             }
         }
@@ -1241,7 +1252,7 @@
                                 getuplink(i);
                             }*/
                         }
-                        xhr1.send('upbigfilename='+ upbigfilename +'&filesize='+ file.size +'&filelastModified='+ file.lastModified + '&filesha1=' + filesha1 + '&chunksize=' + chunksize);
+                        xhr1.send('upbigfilename='+ upbigfilename +'&filesize='+ file.size +'&filelastModified='+ file.lastModified + '&filesha1=' + filesha1 + '&chunksize=' + chunksize + '&_admin=' + localStorage.getItem("admin"));
                     }
                 }
             }
@@ -1327,7 +1338,7 @@
                         }
                         delete uploading[filename];
                     }
-                    xhr1.send('uploadid=' + uploadid + '&fileid=' + fileid + '&etag=' + JSON.stringify(res['ETag']));
+                    xhr1.send('uploadid=' + uploadid + '&fileid=' + fileid + '&etag=' + JSON.stringify(res['ETag']) + '&_admin=' + localStorage.getItem("admin"));
                 } else {
                     var binary = this.result;
                     var xhr = new XMLHttpRequest();
@@ -1398,7 +1409,7 @@
                                     }
                                     delete uploading[filename];
                                 }
-                                xhr1.send('uploadid=' + uploadid + '&fileid=' + fileid + '&etag=' + JSON.stringify(res['ETag']));
+                                xhr1.send('uploadid=' + uploadid + '&fileid=' + fileid + '&etag=' + JSON.stringify(res['ETag']) + '&_admin=' + localStorage.getItem("admin"));
                                 // uploadbuttonshow();
                             } else {
                                 readblob(asize);
@@ -1441,7 +1452,7 @@
         var expd = new Date();
         expd.setTime(expd.getTime()+1000);
         var expires = "expires="+expd.toGMTString();
-        document.cookie = "admin=; path=/; "+expires;
+        document.cookie = "admin=; path=<!--base_path-->; "+expires;
         location.href = location.href;
     }
     /*for some mobile browser*/
@@ -1469,17 +1480,18 @@
         document.getElementById('mask').style.display='';
         //document.getElementById('mask').style.width=document.documentElement.scrollWidth+'px';
         document.getElementById('mask').style.height=document.documentElement.scrollHeight<window.innerHeight?window.innerHeight:document.documentElement.scrollHeight+'px';
+        var str;
         if (num=='') {
-            var str='';
-            var fileid='';
+            str = '';
+            num = 0;
         } else {
-            var str=decodeURIComponent(document.getElementById('file_a'+num).href);
+            str = decodeURIComponent(document.getElementById('file_a'+num).href);
             if (str.substr(-1)==' ') str=str.substr(0, str.length-1);
             if (str.substr(-1)=='/') str=str.substr(0, str.length-1);
             if (str.substr(-8)=='?preview') str=str.substr(0, str.length-8);
             if (str.lastIndexOf('/')>-1) str=str.substr(str.lastIndexOf('/')+1);
-            var fileid=document.getElementById('file_a'+num).attributes['fileid'].nodeValue;
         }
+        var fileid = document.getElementById('file_a'+num).attributes['fileid'].nodeValue;
         document.getElementById(action + '_div').style.display='';
         document.getElementById(action + '_label').innerText=str;//.replace(/&/,'&amp;');
         document.getElementById(action + '_sid').value=num;
@@ -1535,7 +1547,7 @@
             document.getElementById(str+'_div').style.display='none';
             document.getElementById('mask').style.display='none';
         }
-        xhr.send(serializeForm(str+'_form'));
+        xhr.send(serializeForm(str+'_form') + '&_admin=' + localStorage.getItem("admin"));
         return false;
     }
     function addelement(html) {
@@ -1636,7 +1648,7 @@
     document.getElementById('password1').focus();
 <!--EncryptedEnd-->
 </script>
-<script src="//unpkg.zhimg.com/ionicons@4.4.4/dist/ionicons.js"></script>
-<!--LoginStart--><script src="https://cdn.bootcss.com/js-sha1/0.6.0/sha1.min.js"></script><!--LoginEnd-->
+<script src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+<!--LoginStart--><script src="https://cdn.jsdelivr.net/npm/js-sha1@0.6.0/src/sha1.min.js"></script><!--LoginEnd-->
 <!--customScript-->
 </html>

